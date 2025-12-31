@@ -64,21 +64,18 @@ raw/ ──/intake──> to-process/ ──/process──> processed/ + extract
 |---------|-------------|
 | `/search <query>` | Full-text search across knowledge base |
 | `/ask <question>` | Natural language Q&A about the project |
-| `/find <person>` | Look up a person's profile, tasks, mentions |
+| `/find <person>` | Person profile, tasks, discussions, decisions, blockers |
 
 ### Quick Capture Commands
 | Command | Description |
 |---------|-------------|
-| `/note <text>` | Quick-add a note → creates file in raw/ |
-| `/task <text>` | Quick-add a task → creates file in raw/ |
+| `/note <text>` | Quick-add note/task/decision → creates file in raw/ |
 | `/define <term> <definition>` | Quick-add definition → creates file in raw/ |
-| `/decision <text>` | Record a decision → creates file in raw/ |
 
 ### Reporting Commands
 | Command | Description |
 |---------|-------------|
 | `/weekly-digest [date]` | Generate summary of past week's activity |
-| `/standup` | Generate standup notes (your tasks, blockers) |
 | `/brief` | Generate project briefing for onboarding |
 
 ### Task Management Commands
@@ -92,7 +89,6 @@ raw/ ──/intake──> to-process/ ──/process──> processed/ + extract
 | Command | Description |
 |---------|-------------|
 | `/stale [days]` | Find KB entries not updated in N days |
-| `/merge <file1> <file2>` | Interactively merge duplicate entries |
 | `/cleanup` | Archive old files, clean up logs |
 | `/validate` | Check KB consistency (links, refs, frontmatter) |
 

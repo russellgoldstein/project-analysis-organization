@@ -1,5 +1,5 @@
 ---
-description: Look up a person - shows profile, assigned tasks, mentions, and relationships
+description: Look up a person - profile, tasks, recent discussions, decisions, blockers, relationships
 allowed-tools: Grep, Glob, Read
 argument-hint: <person-name>
 ---
@@ -35,21 +35,37 @@ Search `knowledge/tasks/` for tasks where:
 - Assignee matches the person's name
 - Person is mentioned in task description
 
-### 3. Find Mentions
+### 3. Find Recent Activity
+
+Search across all sources for the person's activity:
+
+**Discussions & Conversations:**
+- `processed/` - Recent documents where they spoke/participated
+- Extract quotes and context from Zoom/Slack/meeting transcripts
+
+**Decisions Involved:**
+- `knowledge/project-status/` - Decisions they made or participated in
+- `extractions/*-summary.md` - Key points attributed to them
+
+**Issues & Blockers:**
+- Tasks where they're blocked or blocking
+- Problems they raised or are working on
+
+### 4. Find Mentions
 
 Search across all knowledge base for mentions:
 - `knowledge/project-status/` - Status updates mentioning them
 - `knowledge/wiki/` - Wiki articles mentioning them
 - `processed/` - Recent documents mentioning them
 
-### 4. Find Relationships
+### 6. Find Relationships
 
 From the person's profile and other people's profiles:
 - Who they work with
 - Who they report to
 - Who reports to them
 
-### 5. Format Output
+### 7. Format Output
 
 ```
 # John Smith
@@ -85,6 +101,37 @@ Source: [knowledge/people/john-smith.md]
 
 ### Completed Recently
 - ✓ Set up CI pipeline (Jan 10)
+
+---
+
+## Recent Discussions (last 14 days)
+
+### From Sprint Planning (Jan 15)
+> "I think we should use OAuth2 instead of building our own auth.
+> It's more secure and we can integrate with Google and GitHub."
+
+### From Slack #data-pipeline (Jan 14)
+> "The ETL job is fixed. It was a schema change on the source API."
+
+### From Standup (Jan 12)
+> "Finished the CI pipeline setup. Moving on to auth work."
+
+---
+
+## Decisions Involved
+
+| Date | Decision | Role |
+|------|----------|------|
+| Jan 15 | Use OAuth2 for authentication | Proposed |
+| Jan 10 | Adopt GitHub Actions for CI | Implemented |
+| Jan 5 | Defer mobile auth to next sprint | Participated |
+
+---
+
+## Current Blockers
+
+- Waiting on API credentials from external team (Jan 14)
+- Needs design review for OAuth flow (Jan 13)
 
 ---
 

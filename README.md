@@ -440,7 +440,7 @@ John confirmed OAuth implementation is complete and merged.
 |---------|-------------|---------|
 | `/search <query>` | Full-text search across KB | `/search authentication` |
 | `/ask <question>` | Natural language Q&A | `/ask Who is working on auth?` |
-| `/find <person>` | Look up person profile | `/find John Smith` |
+| `/find <person>` | Person profile, tasks, discussions, decisions | `/find John Smith` |
 
 ### Quick Capture Commands
 
@@ -448,17 +448,14 @@ These create files in `raw/` to go through the full pipeline.
 
 | Command | Description | Example |
 |---------|-------------|---------|
-| `/note <text>` | Quick capture a note | `/note Remember to update docs` |
-| `/task <text>` | Quick capture a task | `/task Review PR #123 by Friday` |
+| `/note <text>` | Quick capture note/task/decision | `/note Review PR #123 by Friday` |
 | `/define <term> <def>` | Quick add a definition | `/define ETL Extract Transform Load` |
-| `/decision <text>` | Record a decision | `/decision Using OAuth2 for auth` |
 
 ### Reporting Commands
 
 | Command | Description | Example |
 |---------|-------------|---------|
 | `/weekly-digest [date]` | Generate weekly summary | `/weekly-digest` or `/weekly-digest 2024-01-15` |
-| `/standup` | Generate standup notes | `/standup` |
 | `/brief` | Generate project briefing | `/brief` |
 
 ### Task Management Commands
@@ -474,7 +471,6 @@ These create files in `raw/` to go through the full pipeline.
 | Command | Description | Example |
 |---------|-------------|---------|
 | `/stale [days]` | Find stale entries | `/stale 30` |
-| `/merge <file1> <file2>` | Merge duplicate entries | `/merge api.md api-v1.md` |
 | `/cleanup` | Archive old files | `/cleanup --dry-run` |
 | `/validate` | Check KB consistency | `/validate --fix` |
 

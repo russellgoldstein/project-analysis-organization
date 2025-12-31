@@ -47,6 +47,7 @@ raw/ ──/intake──> to-process/ ──/process──> processed/ + extract
 
 ## Available Commands
 
+### Pipeline Commands
 | Command | Description |
 |---------|-------------|
 | `/init-project <path>` | Initialize a new project directory |
@@ -57,6 +58,49 @@ raw/ ──/intake──> to-process/ ──/process──> processed/ + extract
 | `/run` | Run full pipeline (all 4 stages) |
 | `/status` | Show pipeline dashboard |
 | `/review [id]` | Review and apply proposed updates |
+
+### Search & Query Commands
+| Command | Description |
+|---------|-------------|
+| `/search <query>` | Full-text search across knowledge base |
+| `/ask <question>` | Natural language Q&A about the project |
+| `/find <person>` | Look up a person's profile, tasks, mentions |
+
+### Quick Capture Commands
+| Command | Description |
+|---------|-------------|
+| `/note <text>` | Quick-add a note → creates file in raw/ |
+| `/task <text>` | Quick-add a task → creates file in raw/ |
+| `/define <term> <definition>` | Quick-add definition → creates file in raw/ |
+| `/decision <text>` | Record a decision → creates file in raw/ |
+
+### Reporting Commands
+| Command | Description |
+|---------|-------------|
+| `/weekly-digest [date]` | Generate summary of past week's activity |
+| `/standup` | Generate standup notes (your tasks, blockers) |
+| `/brief` | Generate project briefing for onboarding |
+
+### Task Management Commands
+| Command | Description |
+|---------|-------------|
+| `/my-tasks` | Show tasks assigned to you (from USER_NAME) |
+| `/overdue` | List tasks past their deadline |
+| `/blocked` | Show blocked tasks and blockers |
+
+### Maintenance Commands
+| Command | Description |
+|---------|-------------|
+| `/stale [days]` | Find KB entries not updated in N days |
+| `/merge <file1> <file2>` | Interactively merge duplicate entries |
+| `/cleanup` | Archive old files, clean up logs |
+| `/validate` | Check KB consistency (links, refs, frontmatter) |
+
+### Export & Backup Commands
+| Command | Description |
+|---------|-------------|
+| `/export [format]` | Export KB to html, pdf, obsidian, or markdown |
+| `/backup` | Create timestamped backup of knowledge base |
 
 ## Project Structure
 

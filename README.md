@@ -421,6 +421,8 @@ John confirmed OAuth implementation is complete and merged.
 
 ## Commands Reference
 
+### Pipeline Commands
+
 | Command | Description | Example |
 |---------|-------------|---------|
 | `/init-project <path>` | Initialize project directory | `/init-project ~/projects/data-lake` |
@@ -432,14 +434,82 @@ John confirmed OAuth implementation is complete and merged.
 | `/review [id\|flags]` | Review proposed updates | `/review` or `/review update-001` |
 | `/status` | Show pipeline dashboard | `/status` |
 
-### `/run` Flags
+### Search & Query Commands
+
+| Command | Description | Example |
+|---------|-------------|---------|
+| `/search <query>` | Full-text search across KB | `/search authentication` |
+| `/ask <question>` | Natural language Q&A | `/ask Who is working on auth?` |
+| `/find <person>` | Look up person profile | `/find John Smith` |
+
+### Quick Capture Commands
+
+These create files in `raw/` to go through the full pipeline.
+
+| Command | Description | Example |
+|---------|-------------|---------|
+| `/note <text>` | Quick capture a note | `/note Remember to update docs` |
+| `/task <text>` | Quick capture a task | `/task Review PR #123 by Friday` |
+| `/define <term> <def>` | Quick add a definition | `/define ETL Extract Transform Load` |
+| `/decision <text>` | Record a decision | `/decision Using OAuth2 for auth` |
+
+### Reporting Commands
+
+| Command | Description | Example |
+|---------|-------------|---------|
+| `/weekly-digest [date]` | Generate weekly summary | `/weekly-digest` or `/weekly-digest 2024-01-15` |
+| `/standup` | Generate standup notes | `/standup` |
+| `/brief` | Generate project briefing | `/brief` |
+
+### Task Management Commands
+
+| Command | Description | Example |
+|---------|-------------|---------|
+| `/my-tasks` | Show your assigned tasks | `/my-tasks` |
+| `/overdue` | List overdue tasks | `/overdue` |
+| `/blocked` | Show blocked tasks | `/blocked` |
+
+### Maintenance Commands
+
+| Command | Description | Example |
+|---------|-------------|---------|
+| `/stale [days]` | Find stale entries | `/stale 30` |
+| `/merge <file1> <file2>` | Merge duplicate entries | `/merge api.md api-v1.md` |
+| `/cleanup` | Archive old files | `/cleanup --dry-run` |
+| `/validate` | Check KB consistency | `/validate --fix` |
+
+### Export & Backup Commands
+
+| Command | Description | Example |
+|---------|-------------|---------|
+| `/export [format]` | Export KB | `/export html` or `/export pdf` |
+| `/backup` | Create timestamped backup | `/backup --compress` |
+
+### Command Flags
+
+**`/run` Flags:**
 - `--skip-crossref` - Run stages 1-3 only
 - `--dry-run` - Show what would happen without changes
 
-### `/review` Options
+**`/review` Options:**
 - `--list` - List pending proposals
 - `--apply-high` - Auto-apply high-confidence proposals
 - `--archive-rejected` - Archive all rejected proposals
+
+**`/cleanup` Options:**
+- `--processed=<days>` - Archive files older than N days (default: 90)
+- `--logs=<days>` - Delete logs older than N days (default: 30)
+- `--dry-run` - Preview without changes
+
+**`/export` Formats:**
+- `markdown` - Plain markdown (default)
+- `html` - Static website with navigation
+- `pdf` - Single PDF document
+- `obsidian` - Obsidian-compatible vault
+
+**`/backup` Options:**
+- `--compress` - Create .tar.gz archive
+- `--keep=<n>` - Keep only last N backups (default: 5)
 
 ---
 

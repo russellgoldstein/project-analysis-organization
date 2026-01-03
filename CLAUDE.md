@@ -51,6 +51,7 @@ raw/ ──/intake──> to-process/ ──/process──> processed/ + extract
 | Command | Description |
 |---------|-------------|
 | `/init-project <path>` | Initialize a new project directory |
+| `/convert-docx [file]` | Convert .docx files to markdown (auto-runs in intake) |
 | `/intake [file]` | Process raw files (Stage 1) |
 | `/process [file]` | Analyze documents (Stage 2) |
 | `/organize [type]` | Organize extractions (Stage 3) |
@@ -137,7 +138,10 @@ TRACK_PEOPLE=true
 
 ## Input Formats
 
-The framework accepts plain text files (.txt, .md) containing:
+The framework accepts plain text files (.txt, .md) and automatically converts:
+- **Microsoft Word (.docx)**: Auto-converted to markdown during intake (requires `python-docx`)
+
+Supported content types (auto-detected from patterns):
 - **Zoom transcripts**: Speaker labels, timestamps
 - **Slack exports**: @mentions, #channels, threads
 - **JIRA content**: Ticket IDs (PROJ-123), acceptance criteria
@@ -147,6 +151,12 @@ The framework accepts plain text files (.txt, .md) containing:
 - **General notes**: Any text content
 
 Source type is auto-detected from content patterns.
+
+### Requirements for .docx Support
+
+Install python-docx: `pip install python-docx`
+
+The conversion preserves headings, bold/italic text, lists, and tables. Images and complex formatting are not preserved.
 
 ## Workflow Tips
 

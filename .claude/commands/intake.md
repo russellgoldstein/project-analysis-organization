@@ -19,10 +19,40 @@ Process files from the `raw/` directory through the intake pipeline.
 
 - Working directory should be the project directory (contains `raw/`, `to-process/`, etc.)
 - Or the project path should be configured
+- `python-docx` library for .docx conversion (`pip install python-docx`)
 
 ## Task
 
-For each file in `raw/`:
+### Pre-processing: Convert Binary Formats
+
+Before processing text files, check for and convert any binary document formats:
+
+**For .docx files:**
+1. Find all `.docx` files in `raw/`
+2. For each .docx file, run the conversion script:
+   ```bash
+   python3 <framework-path>/scripts/docx_to_markdown.py "<input.docx>" "<output.md>"
+   ```
+3. The output .md file is placed in `raw/` with the same base name
+4. The original .docx file is kept (will be skipped in subsequent processing)
+5. Report conversions:
+   ```
+   Pre-processing: Converting binary formats...
+   - Architecture Overview.docx → Architecture Overview.md
+   - Customer Pipeline.docx → Customer Pipeline.md
+   Converted 2 .docx files to markdown
+   ```
+
+**Supported binary formats:**
+- `.docx` - Microsoft Word (requires python-docx)
+
+**Skipped file types:**
+- `.docx` - Skip if already converted (has matching .md file) or conversion failed
+- `.pdf` - Not yet supported (suggest manual conversion)
+- `.doc` - Legacy Word format not supported (suggest saving as .docx)
+- Other binary files - Skip with warning
+
+For each text file in `raw/` (`.txt`, `.md`, `.text`):
 
 ### 1. Read and Analyze Content
 

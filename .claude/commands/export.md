@@ -27,6 +27,30 @@ Export the knowledge base to different formats for sharing or backup.
 /export --include=wiki,definitions  # Only wiki and definitions
 ```
 
+## Dependencies
+
+For full functionality, install these Python packages:
+
+```bash
+pip install markdown PyYAML      # Required for HTML export
+pip install weasyprint           # Required for PDF export (optional)
+pip install Pygments             # Syntax highlighting (optional)
+```
+
+## Execution
+
+Run the export script with the project directory and arguments:
+
+```bash
+python3 scripts/export_knowledge_base.py "$PROJECT_DIR" $ARGUMENTS
+```
+
+The script will:
+1. Collect all markdown files from `knowledge/`
+2. Convert links and content to the target format
+3. Generate navigation/index
+4. Output to `exports/` (or custom location with --output)
+
 ## Task
 
 ### 1. Gather Content

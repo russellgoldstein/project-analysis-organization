@@ -27,19 +27,22 @@ raw/ → to-process/
 
 Stage 2: PROCESS
 to-process/ → processed/ + extractions/
-├── Analyze with document-analyzer
-├── Extract tasks with task-extractor
-├── Extract entities with entity-extractor
-└── Create extraction files
+├── Analyze with document-analyzer subagent
+├── Extract tasks with task-extractor subagent
+├── Extract entities with entity-extractor subagent
+├── Extract meeting notes with meeting-notes-extractor (for meetings)
+├── Extract wiki content with wiki-content-extractor
+└── Create extraction files (summary, tasks, entities, meeting, wiki)
 
 Stage 3: ORGANIZE
-extractions/ → knowledge/
+extractions/ → knowledge/ + proposed-updates/
 ├── Route tasks to knowledge/tasks/
 ├── Route people to knowledge/people/
 ├── Route definitions to knowledge/definitions/
+├── Route meeting notes to knowledge/meetings/
 ├── Route status to knowledge/project-status/
 ├── Create JIRA drafts
-└── Create wiki articles
+└── Generate wiki proposals in proposed-updates/
 
 Stage 4: CROSSREF
 processed/ + knowledge/ → proposed-updates/
@@ -110,6 +113,8 @@ Results:
 - 8 tasks extracted
 - 5 people identified
 - 6 definitions found
+- 2 meeting notes extracted
+- 4 wiki items identified
 - 3 JIRA candidates identified
 
 Continuing to Stage 3...
@@ -131,8 +136,9 @@ Results:
 - 8 tasks added to knowledge/tasks/
 - 5 people profiles updated
 - 6 definitions added to glossary
+- 2 meeting notes created in knowledge/meetings/
 - 3 JIRA drafts created
-- 1 wiki article created
+- 4 wiki proposals created in proposed-updates/
 
 Continuing to Stage 4...
 ```
@@ -171,18 +177,21 @@ Documents analyzed:      3
 Tasks extracted:         8
 People identified:       5
 Definitions found:       6
+Meeting notes created:   2
+Wiki proposals created:  4
 JIRA drafts created:     3
 Update proposals:        2
 
 NEXT STEPS
 ----------
-1. Review JIRA drafts in knowledge/jira-drafts/
-2. Review update proposals in proposed-updates/
-3. Run /status for current pipeline state
+1. Review meeting notes in knowledge/meetings/
+2. Review wiki proposals in proposed-updates/ (run /review)
+3. Review JIRA drafts in knowledge/jira-drafts/
+4. Run /status for current pipeline state
 
 REMINDERS
 ---------
-- Proposed updates require manual review before applying
+- Wiki proposals require manual review before applying (run /review)
 - JIRA drafts are ready to copy into your issue tracker
 - New definitions may need expert review
 ```

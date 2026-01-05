@@ -1,7 +1,7 @@
 ---
 description: Organize extracted information into knowledge base directories
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash
-argument-hint: [tasks|definitions|people|wiki|status|jira|all]
+argument-hint: [tasks|definitions|people|wiki|status|jira|meetings|all]
 ---
 
 # Knowledge Organization Pipeline (Stage 3)
@@ -14,7 +14,8 @@ Organize extractions from processed documents into the knowledge base.
 - `tasks` - Organize only task extractions
 - `definitions` - Organize only term/definition extractions
 - `people` - Organize only people extractions
-- `wiki` - Organize only wiki-worthy content
+- `meetings` - Organize only meeting notes
+- `wiki` - Generate only wiki proposals (to proposed-updates/)
 - `status` - Organize only project status content
 - `jira` - Generate only JIRA draft tickets
 - `all` - Organize everything (default)
@@ -31,9 +32,11 @@ Read extractions from `extractions/` and organize into `knowledge/`:
 ### 1. Load Extractions
 
 Scan `extractions/` for files that haven't been organized:
-- `*-summary.md` - Contains themes, decisions (→ project-status, wiki)
+- `*-summary.md` - Contains themes, decisions (→ project-status)
 - `*-tasks.md` - Contains action items (→ tasks, jira-drafts)
 - `*-entities.md` - Contains people, terms (→ people, definitions)
+- `*-meeting.md` - Contains structured meeting notes (→ meetings)
+- `*-wiki.md` - Contains wiki content proposals (→ proposed-updates)
 
 ### 2. Process Task Extractions
 
@@ -187,7 +190,78 @@ How it's used in the project.
 - First defined: [document](../processed/file.md)
 ```
 
-### 4. Process Summary Extractions
+### 4. Process Meeting Notes Extractions
+
+Route meeting notes to `knowledge/meetings/`:
+
+For each meeting extraction file (`*-meeting.md`):
+
+1. Extract meeting date and topic from frontmatter
+2. Create file in knowledge/meetings/
+
+File format: `knowledge/meetings/YYYY-MM-DD-<topic>.md`
+
+```markdown
+---
+type: meeting-notes
+meeting_date: YYYY-MM-DD
+meeting_type: sprint-planning | architecture-review | standup | etc.
+meeting_topic: Topic Name
+source_document: processed/YYYY-MM-DD-source.md
+participants:
+  - Name 1
+  - Name 2
+created: YYYY-MM-DD
+---
+
+# Meeting: <Topic>
+
+**Date:** YYYY-MM-DD
+**Type:** <Meeting Type>
+**Participants:** Name 1, Name 2
+**Source:** [Original Document](../processed/filename.md)
+
+## Executive Summary & Talking Points
+
+### Executive Summary
+<Content from extraction>
+
+### Key Talking Points
+<Content from extraction>
+
+## Action Items & Next Steps
+
+### Action Items
+<Table from extraction>
+
+### Next Steps
+<Content from extraction>
+
+## Key Decisions & Architectural Principles
+
+### Decisions Made
+<Content from extraction>
+
+### Architectural Principles
+<Content from extraction>
+
+## Risks, Blockers, & Open Questions
+
+### Risks
+<Content from extraction>
+
+### Blockers
+<Content from extraction>
+
+### Open Questions
+<Content from extraction>
+
+---
+
+**Extracted:** YYYY-MM-DD
+```
+
+### 5. Process Summary Extractions
 
 #### Route Decisions/Status to `knowledge/project-status/`
 
@@ -223,35 +297,154 @@ Brief current state.
 - Focus area 2
 ```
 
-#### Route Reference Content to `knowledge/wiki/`
+### 6. Process Wiki Content Extractions (Proposals Only)
 
-For explanatory content that should become wiki articles:
+**IMPORTANT**: Wiki content is NOT directly written to `knowledge/wiki/`. Instead, generate proposals in `proposed-updates/` for human review.
 
-File format: `knowledge/wiki/<topic>.md`
+For each wiki extraction file (`*-wiki.md`):
+
+1. Read existing wiki articles in `knowledge/wiki/`
+2. For each wiki item in the extraction:
+   - If article exists: Generate UPDATE proposal
+   - If article is new: Generate CREATE proposal
+3. Write proposal to `proposed-updates/`
+
+#### Proposal for New Wiki Article
+
+File: `proposed-updates/wiki-new-NNN-<topic>.md`
+
+```markdown
+---
+type: proposed-update
+proposal_id: wiki-new-001
+created: YYYY-MM-DD
+target_file: knowledge/wiki/<topic>.md
+change_type: create
+source_document: processed/<file>.md
+wiki_category: technical | best-practices | product-business
+confidence: high | medium | low
+status: pending_review
+---
+
+# Proposed: New Wiki Article - <Topic>
+
+## Summary
+
+<Why this article should be created based on source content>
+
+## Proposed Content
 
 ```markdown
 ---
 type: wiki
-topic: Topic Name
+topic: <Topic>
+category: <category>
 created: YYYY-MM-DD
-updated: YYYY-MM-DD
 sources:
-  - processed/source1.md
+  - processed/<source>.md
 ---
 
-# Topic Name
+# <Topic>
 
 ## Overview
-Brief overview.
+<Content extracted from source>
 
 ## Details
-Detailed content.
+<Detailed content>
 
 ## Sources
-- [Source Document](../processed/file.md)
+- [Source Document](../processed/<file>.md)
 ```
 
-### 5. Mark Extractions as Organized
+## Source Evidence
+
+> "<Relevant quote from the document>"
+> — <Speaker/Author>
+
+## Confidence
+
+**<Level>** - <Rationale for confidence level>
+
+---
+
+## Review Actions
+
+- [ ] Approve and apply
+- [ ] Modify and apply
+- [ ] Reject
+- [ ] Defer
+
+**Reviewer Notes:**
+_Add notes here when reviewing_
+```
+
+#### Proposal for Wiki Update
+
+File: `proposed-updates/wiki-update-NNN-<topic>.md`
+
+```markdown
+---
+type: proposed-update
+proposal_id: wiki-update-001
+created: YYYY-MM-DD
+target_file: knowledge/wiki/<existing-topic>.md
+change_type: update
+source_document: processed/<file>.md
+wiki_category: technical | best-practices | product-business
+confidence: high | medium | low
+status: pending_review
+---
+
+# Proposed: Update Wiki - <Topic>
+
+## Summary
+
+<Why this update should be made>
+
+## Target
+
+**File:** knowledge/wiki/<topic>.md
+**Section:** <Which section to update, if specific>
+
+## Current Content
+
+```markdown
+<Current content of the section being updated>
+```
+
+## Proposed Addition/Change
+
+```markdown
+<New or modified content to add>
+```
+
+## Rationale
+
+<Why this change improves the article>
+
+## Source Evidence
+
+> "<Quote from new document>"
+> — <Speaker/Author>
+
+## Confidence
+
+**<Level>** - <Rationale>
+
+---
+
+## Review Actions
+
+- [ ] Approve and apply
+- [ ] Modify and apply
+- [ ] Reject
+- [ ] Defer
+
+**Reviewer Notes:**
+_Add notes here when reviewing_
+```
+
+### 7. Mark Extractions as Organized
 
 After organizing, update extraction files:
 
@@ -263,24 +456,27 @@ organized_date: YYYY-MM-DD
 organized_to:
   - knowledge/tasks/project-tasks.md
   - knowledge/people/john-smith.md
+  - knowledge/meetings/2024-01-15-sprint-planning.md
+  - proposed-updates/wiki-new-001-deployment.md
 ---
 ```
 
-### 6. Log Results
+### 8. Log Results
 
 Append to `logs/organize-YYYY-MM-DD.md`:
 
 ```markdown
 ## Organization Log - <timestamp>
 
-| Category | New | Updated |
-|----------|-----|---------|
-| Tasks | 3 | 2 |
-| People | 2 | 1 |
-| Definitions | 4 | 0 |
-| JIRA Drafts | 2 | - |
-| Wiki | 1 | 0 |
-| Status | 1 | 1 |
+| Category | New | Updated | Proposals |
+|----------|-----|---------|-----------|
+| Tasks | 3 | 2 | - |
+| People | 2 | 1 | - |
+| Definitions | 4 | 0 | - |
+| Meetings | 2 | - | - |
+| JIRA Drafts | 2 | - | - |
+| Wiki | - | - | 3 |
+| Status | 1 | 1 | - |
 ```
 
 ## Output
@@ -304,13 +500,20 @@ People:
 Definitions:
 - 4 new terms added to glossary
 
-Wiki:
-- 1 new article created (deployment-process)
+Meetings:
+- 2 meeting notes created (sprint-planning, architecture-review)
+
+Wiki Proposals:
+- 3 proposals created in proposed-updates/
+  - wiki-new-001: deployment-process (high confidence)
+  - wiki-new-002: api-patterns (medium confidence)
+  - wiki-update-001: architecture-overview (high confidence)
 
 Project Status:
 - 1 status update added to project-alpha
 
 See knowledge/ directory for organized content.
+Run /review to apply wiki proposals.
 ```
 
 ## Duplicate Handling
@@ -319,6 +522,7 @@ When content might be duplicate:
 - Tasks: Compare description and assignee
 - People: Match by normalized name
 - Definitions: Match by term (case-insensitive)
+- Meetings: Match by date + topic
 - If duplicate detected: Update existing, don't create new
 - If unsure: Create entry but flag for review
 

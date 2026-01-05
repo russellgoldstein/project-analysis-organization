@@ -26,6 +26,7 @@ Create the following directory structure at the specified path:
 ├── processed/              # After processing (analyzed)
 ├── extractions/            # Extracted info before organization
 ├── knowledge/              # Organized knowledge base
+│   ├── meetings/           # Per-meeting structured notes
 │   ├── project-status/     # Status updates, sprint summaries, decisions
 │   ├── tasks/              # Action items, to-dos
 │   ├── definitions/        # Glossary, terms, acronyms
@@ -90,6 +91,11 @@ Project initialized with the Project Analysis & Organization Framework.
 - `processed/` - Fully analyzed documents
 - `extractions/` - Extracted information
 - `knowledge/` - Organized knowledge base
+  - `meetings/` - Per-meeting structured notes
+  - `wiki/` - Reference articles, how-tos
+  - `people/` - Team profiles
+  - `tasks/` - Action items
+  - `definitions/` - Glossary and terms
 - `proposed-updates/` - Pending change proposals (review before applying)
 - `logs/` - Processing logs
 

@@ -27,15 +27,19 @@ raw/ ──/intake──> to-process/ ──/process──> processed/ + extract
 - Moves to `to-process/`
 
 ### Stage 2: Process (`/process`)
-- Generates summaries and identifies themes
+- Generates summaries and identifies themes (using LLM subagents)
 - Extracts action items with assignees and deadlines
 - Identifies people, terms, and definitions
+- Extracts structured meeting notes (4 sections) for meetings
+- Identifies wiki-worthy content in 3 categories
 - Creates extraction files in `extractions/`
 - Moves originals to `processed/`
 
 ### Stage 3: Organize (`/organize`)
 - Routes extractions to appropriate knowledge directories
-- Updates task lists, definitions, wiki articles
+- Creates per-meeting notes in `knowledge/meetings/`
+- Updates task lists, definitions, project status
+- Generates wiki proposals in `proposed-updates/` (require review)
 - Generates draft JIRA tickets for new action items
 - Builds people registry from context
 
@@ -111,6 +115,7 @@ After running `/init-project`, your project will have:
 ├── processed/              # After processing
 ├── extractions/            # Extracted information
 ├── knowledge/              # Organized knowledge base
+│   ├── meetings/           # Per-meeting structured notes
 │   ├── project-status/     # Status updates, decisions
 │   ├── tasks/              # Action items
 │   ├── definitions/        # Glossary/terms

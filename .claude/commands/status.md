@@ -30,6 +30,7 @@ Extractions (Organize):    X files pending
 
 KNOWLEDGE BASE
 --------------
+Meeting Notes:     X entries
 Project Status:    X entries
 Tasks:             X entries
 Definitions:       X entries
@@ -39,7 +40,8 @@ JIRA Drafts:       X drafts
 
 REVIEW QUEUE
 ------------
-Proposed Updates:  X pending review
+Wiki Proposals:    X pending
+Other Proposals:   X pending
 
 RECENT ACTIVITY
 ---------------
@@ -62,6 +64,7 @@ Last crossref: YYYY-MM-DD (X proposals)
    - `extractions/` - Count .md files
 
 3. **Count Knowledge Base Entries**
+   - `knowledge/meetings/` - Count .md files
    - `knowledge/project-status/` - Count .md files
    - `knowledge/tasks/` - Count .md files
    - `knowledge/definitions/` - Count .md files
@@ -70,7 +73,8 @@ Last crossref: YYYY-MM-DD (X proposals)
    - `knowledge/jira-drafts/` - Count .md files
 
 4. **Count Pending Reviews**
-   - `proposed-updates/` - Count .md files with status: pending_review
+   - `proposed-updates/wiki-*.md` - Count wiki proposals with status: pending_review
+   - `proposed-updates/*.md` (non-wiki) - Count other proposals with status: pending_review
 
 5. **Check Recent Activity**
    - Read latest log files from `logs/`
